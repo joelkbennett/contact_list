@@ -28,7 +28,8 @@ private
     case @command
     when 'list' then show_contacts
     when 'new' then add_contact
-    when 'find' then get_contact(@arg) # TODO: Input check
+    when 'find' then get_contact # TODO: Input check
+    when 'search' then search_contact
     else puts 'Command not recognized'
     end
   end
@@ -57,8 +58,13 @@ private
 
   # Takes ID and display contact if it exists
   def get_contact(id)
-    contact = Contact.find(id)
+    contact = Contact.find(@arg)
     puts contact.nil? ? "Contact not found" : "#{contact[1]} (#{contact[2]})"
+  end
+
+  def search_contact
+    contact = Contact.search(@arg.downcase)
+    puts contact.inspect
   end
 end
 

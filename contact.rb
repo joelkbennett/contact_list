@@ -10,6 +10,7 @@ class Contact
     @name = name
     @email = email
     # TODO: Set the new ID based on the last record in the list; will account for record deletion
+    # TODO: Fix big in this
     @id = (CSV.read(@db).last[0].to_i + 1).to_s
   end
 
@@ -29,7 +30,6 @@ class Contact
 
     # Returns the contact with the specified id. If no contact has the id, returns nil.
     def find(id)
-      # TODO: Find the Contact in the 'contacts.csv' file with the matching id.
       CSV.foreach(@db) do |row|
         return row if row[0] == id
       end
@@ -38,6 +38,9 @@ class Contact
     # Returns an array of contacts who match the given term.
     def search(term)
       # TODO: Select the Contact instances from the 'contacts.csv' file whose name or email attributes contain the search term.
+      CSV.foreach(@db) do |row|
+        row.each {|el| return row if el.downcase.include?(term)}
+      end 
     end
 
   end
