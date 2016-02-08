@@ -2,11 +2,12 @@ require 'csv'
 
 # Represents a person in an address book.
 class Contact
-
+  @db = './contact_db.csv'
   attr_accessor :name, :email
 
   def initialize(name, email)
-    # TODO: Assign parameter values to instance variables.
+    @name = name
+    @email = email
   end
 
   # Provides functionality for managing a list of Contacts in a database.
@@ -14,12 +15,14 @@ class Contact
 
     # Returns an Array of Contacts loaded from the database.
     def all
-      # TODO: Return an Array of Contact instances made from the data in 'contacts.csv'.
+      contacts = CSV.foreach(@db).to_a
     end
 
     # Creates a new contact, adding it to the database, returning the new contact.
     def create(name, email)
       # TODO: Instantiate a Contact, add its data to the 'contacts.csv' file, and return it.
+      new_contact = Contact.new(name, email)
+      contacts = CSV.open(@db)
     end
 
     # Returns the contact with the specified id. If no contact has the id, returns nil.
