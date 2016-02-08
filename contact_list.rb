@@ -7,6 +7,7 @@ class ContactList
   def initialize
     show_menu if ARGV.empty?
     @command = ARGV[0]
+    @arg = ARGV[1] unless ARGV[1] == nil
     check_command
   end
 
@@ -27,6 +28,7 @@ private
     case @command
     when 'list' then show_contacts
     when 'new' then add_contact
+    when 'find' then get_contact(@arg) # TODO: Input check
     else puts 'Command not recognized'
     end
   end
@@ -36,12 +38,13 @@ private
     count = 0
     Contact.all.each do |rec| 
       count += 1
-      puts "#{count}: #{rec[0]} (#{rec[1]})"
+      puts "#{count}: #{rec[1]} (#{rec[2]})"
     end
     puts "---"
     puts "#{count} records total"
   end
 
+  # Waits for user input and creates a new contact record
   def add_contact
     puts "Enter contact name:"
     name = STDIN.gets.chomp
@@ -50,6 +53,12 @@ private
     Contact.create(name, email)
     # TODO: check to make sure input is valid; add helper methods
     puts "#{name} successfully added to contact list"
+  end
+
+  # Takes ID and display contact if it exists
+  def get_contact(id)
+    contact = Contact.find(id)
+    puts contact.nil? ? "Contact not found" : "#{contact[1]} (#{contact[2]})"
   end
 end
 
