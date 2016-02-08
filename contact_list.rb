@@ -26,6 +26,7 @@ private
   def check_command
     case @command
     when 'list' then show_contacts
+    when 'new' then add_contact
     else puts 'Command not recognized'
     end
   end
@@ -39,6 +40,16 @@ private
     end
     puts "---"
     puts "#{count} records total"
+  end
+
+  def add_contact
+    puts "Enter contact name:"
+    name = STDIN.gets.chomp
+    puts "Enter contact email:"
+    email = STDIN.gets.chomp 
+    Contact.create(name, email)
+    # TODO: check to make sure input is valid; add helper methods
+    puts "#{name} successfully added to contact list"
   end
 end
 
