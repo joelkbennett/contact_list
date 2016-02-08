@@ -35,13 +35,10 @@ private
     end
   end
 
-  # Prints all contacts to the console
+  # Prints all contacts to the console -- I'd prefer to call this all_contacts
   def show_contacts
-    contacts = Contact.all.each do |rec| 
-      puts "#{rec[0]}: #{rec[1]} (#{rec[2]})"
-    end
-    puts "---"
-    puts "#{contacts.count} records total"
+    contacts = Contact.all
+    display_contacts(contacts)
   end
 
   # Waits for user input and creates a new contact record
@@ -61,11 +58,16 @@ private
     puts contact.nil? ? "Contact not found" : "#{contact[1]} (#{contact[2]})"
   end
 
+  # Takes user input and searches contact list. Outputs all unique entries
   def search_contacts
     contacts = Contact.search(@arg.downcase).uniq
+    display_contacts(contacts)
+  end
+
+  # Takes an array of contacts and formats the output
+  def display_contacts(contacts)
     contacts.each { |contact| puts "#{contact[0]}: #{contact[1]} (#{contact[2]})" }
     puts "---"
-    # TODO: Count the records properly
     puts "#{contacts.size} records total"
   end
 end
