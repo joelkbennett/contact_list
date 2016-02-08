@@ -3,15 +3,15 @@ require 'csv'
 # Represents a person in an address book.
 class Contact
   @db = './contact_db.csv'
-  
+  @next_id = CSV.read(@db).last[0].to_i + 1
+
   attr_reader :name, :email, :id
 
-  def initialize(name, email)
+  def initialize(name, email, id)
+    # TODO: Tighten this ID business up
     @name = name
     @email = email
-    # TODO: Set the new ID based on the last record in the list; will account for record deletion
-    # TODO: Fix big in this
-    @id = (CSV.read(@db).last[0].to_i + 1).to_s
+    @id = id
   end
 
   # Provides functionality for managing a list of Contacts in a database.
@@ -24,7 +24,7 @@ class Contact
 
     # Creates a new contact, adding it to the database, returning the new contact.
     def create(name, email)
-      new_contact = Contact.new(name, email)
+      new_contact = Contact.new(name, email, @next_id)
       CSV.open(@db, 'a') { |list| list << [new_contact.id, new_contact.name, new_contact.email] }
     end
 
