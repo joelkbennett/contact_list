@@ -62,11 +62,11 @@ private
   end
 
   def search_contacts
-    contact = Contact.search(@arg.downcase)
-    puts "#{contact[0]}: #{contact[1]} (#{contact[2]})"
+    contacts = Contact.search(@arg.downcase).uniq
+    contacts.each { |contact| puts "#{contact[0]}: #{contact[1]} (#{contact[2]})" }
     puts "---"
     # TODO: Count the records properly
-    puts "1 records total"
+    puts "#{contacts.size} records total"
   end
 end
 

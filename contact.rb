@@ -38,9 +38,11 @@ class Contact
     # Returns an array of contacts who match the given term.
     def search(term)
       # TODO: Select the Contact instances from the 'contacts.csv' file whose name or email attributes contain the search term.
+      found = []
       CSV.foreach(@db) do |row|
-        row.each {|el| return row if el.downcase.include?(term)}
-      end 
+        row.each {|el| found.push(row) if el.downcase.include?(term)}
+      end
+      found
     end
 
   end
