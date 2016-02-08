@@ -42,14 +42,18 @@ private
   end
 
   # Waits for user input and creates a new contact record
+  # TODO: Add better validation
   def add_contact
     puts "Enter contact name:"
     name = STDIN.gets.chomp
     puts "Enter contact email:"
-    email = STDIN.gets.chomp 
-    Contact.create(name, email)
-    # TODO: check to make sure input is valid; add helper methods
-    puts "#{name} successfully added to contact list"
+    email = STDIN.gets.chomp
+    if Contact.uniq_email?(email)
+      Contact.create(name, email)
+      puts "#{name} successfully added to contact list"
+    else
+      puts "#{email} already exists! Contact not added"
+    end
   end
 
   # Takes ID and display contact if it exists

@@ -25,19 +25,8 @@ class Contact
 
     # Creates a new contact, adding it to the database, returning the new contact.
     def create(name, email)
-      # TODO: Validate email as unique during creation
-      begin
-        if uniq_email?(email)
-          new_contact = Contact.new(name, email, @next_id)
-          CSV.open(@db, 'a') { |list| list << [new_contact.id, new_contact.name, new_contact.email] }
-        else
-          raise InputError, "Email exists"
-        end
-      rescue
-        # maybe return the exception so that I'm not putting here?
-        puts "#{email} already exists! Contact not added"
-        exit
-      end
+      new_contact = Contact.new(name, email, @next_id)
+      CSV.open(@db, 'a') { |list| list << [new_contact.id, new_contact.name, new_contact.email] }
     end
 
     # Returns the contact with the specified id. If no contact has the id, returns nil.
@@ -56,9 +45,7 @@ class Contact
       found
     end
 
-    # Take a string email and checks to see of it already exists in the contact_list
-    # See if I can recycle the search method
-    # Returns boolean
+    # Take a string email and checks to see of it already exists in the contact_list. Returns boolean
     def uniq_email?(email)
       true if search(email).empty?
     end
