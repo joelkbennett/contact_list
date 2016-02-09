@@ -53,7 +53,18 @@ private
     puts " Enter contact email:"
     email = STDIN.gets.chomp
     if Contact.uniq_email?(email)
-      Contact.create(name, email)
+      # TODO: Allow the input of any number of phone numbers
+      # TODO: I'm not trilled about the location of this; MOVE IT
+      phone_nums = []
+      puts " Would you like to add a phone number? Y/N"
+      add_num = STDIN.gets.chomp.downcase
+      while add_num == 'y' do
+        phone_nums << add_phone_number
+        puts " Add another? Y/N"
+        add_num = STDIN.gets.chomp
+      end
+
+      Contact.create(name, email, phone_nums)
       puts " #{name} successfully added to contact list"
     else
       puts " #{email} already exists! Contact not added"
@@ -74,8 +85,16 @@ private
 
   # Takes an array of contacts and formats the output
   def display_contacts(contacts, paginated)
-    contacts.each { |contact| puts " #{contact[0]}: #{contact[1]} (#{contact[2]})" }
+    contacts.each { |contact| puts " #{contact[0]}: #{contact[1]} (#{contact[2]}), (#{contact[3]})" }
     puts "---\n #{contacts.size} records total\n\n" unless paginated
+  end
+
+  def add_phone_number
+    puts " Phone Type (Home/Work/Mobile)"
+    type = STDIN.gets.chomp
+    puts " Phone Number"
+    number = STDIN.gets.chomp
+    [type, number]
   end
 
   # Take an array of contacts and paginates through them; returns nil

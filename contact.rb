@@ -6,13 +6,14 @@ class Contact
   # TODO: Use this better; that is, instead of next_id, just keep a read copy of the db available
   @next_id = CSV.read(@db).last[0].to_i + 1
 
-  attr_reader :name, :email, :id
+  attr_reader :name, :email, :id, :phone
 
-  def initialize(name, email, id)
+  def initialize(name, email, id, phone)
     # TODO: Tighten this ID business up
     @name = name
     @email = email
     @id = id
+    @phone = phone
   end
 
   # Provides functionality for managing a list of Contacts in a database.
@@ -24,9 +25,9 @@ class Contact
     end
 
     # Creates a new contact, adding it to the database, returning the new contact.
-    def create(name, email)
-      new_contact = Contact.new(name, email, @next_id)
-      CSV.open(@db, 'a') { |list| list << [new_contact.id, new_contact.name, new_contact.email] }
+    def create(name, email, phone)
+      new_contact = Contact.new(name, email, @next_id, phone)
+      CSV.open(@db, 'a') { |list| list << [new_contact.id, new_contact.name, new_contact.email, new_contact.phone] }
     end
 
     # Returns the contact with the specified id. If no contact has the id, returns nil.
@@ -50,5 +51,4 @@ class Contact
       true if search(email).empty?
     end
   end
-
 end
