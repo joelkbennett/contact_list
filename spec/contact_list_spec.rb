@@ -1,1 +1,1 @@
-contact_list_spec.rb
+require "../contact_list.rb" 

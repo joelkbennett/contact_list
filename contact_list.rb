@@ -1,7 +1,6 @@
 #!/usr/bin/env ruby 
 
 require_relative 'contact'
-require 'byebug'
 
 # Interfaces between a user and their contact list. Reads from and writes to standard I/O.
 class ContactList

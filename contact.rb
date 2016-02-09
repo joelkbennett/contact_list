@@ -16,9 +16,7 @@ class Contact
     @phone = phone
   end
 
-  # Provides functionality for managing a list of Contacts in a database.
   class << self
-
     # Returns an Array of Contacts loaded from the database.
     def all
       contacts = CSV.foreach(@db).to_a
@@ -48,6 +46,7 @@ class Contact
 
     # Take a string email and checks to see of it already exists in the contact_list. Returns boolean
     def uniq_email?(email)
+      # TODO: Add a break once a since entry is found
       true if search(email).empty?
     end
   end
