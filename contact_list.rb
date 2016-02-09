@@ -38,7 +38,7 @@ private
   # Prints all contacts to the console -- I'd prefer to call this all_contacts
   def show_contacts
     contacts = Contact.all
-    display_contacts(contacts)
+    contacts.size <= 5 ? display_contacts(contacts) : paginate(contacts, 5)
   end
 
   # Waits for user input and creates a new contact record
@@ -69,10 +69,20 @@ private
   end
 
   # Takes an array of contacts and formats the output
-  def display_contacts(contacts)
+  def display_contacts(contacts, paginated)
     contacts.each { |contact| puts "#{contact[0]}: #{contact[1]} (#{contact[2]})" }
-    puts "---"
-    puts "#{contacts.size} records total"
+    puts "---\n#{contacts.size} records total" unless paginated
+  end
+
+  # Take an array of contacts and paginates through them; returns nil
+  def paginate(contacts, num_per_page)
+    pages = contacts.each_slice(num_per_page)
+    pages.each_with_index do |page, i| 
+      puts "Page #{i + 1} of #{pages.count}"
+      display_contacts(page, true)
+      puts "\nhit enter to continue"
+      STDIN.gets.chomp
+    end
   end
 end
 
