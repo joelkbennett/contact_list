@@ -33,7 +33,7 @@ private
     when 'find' then get_contact # TODO: Input check
     when 'search' then search_contacts
     else 
-      puts "\n Command not recognized"
+      puts "\n> Command not recognized"
       show_menu
     end
   end
@@ -46,34 +46,34 @@ private
 
   # Waits for user input and creates a new contact record
   # TODO: Add better validation
+  # TODO: Fuck this repl - replace with ARGS
   def add_contact
-    puts " Enter contact name:"
+    puts "> Enter contact name:"
     name = STDIN.gets.chomp
-    puts " Enter contact email:"
+    puts "> Enter contact email:"
     email = STDIN.gets.chomp
     if Contact.uniq_email?(email)
-      # TODO: Allow the input of any number of phone numbers
       # TODO: I'm not trilled about the location of this; MOVE IT
       phone_nums = []
-      puts " Would you like to add a phone number? Y/N"
+      puts "> Would you like to add a phone number? Y/N"
       add_num = STDIN.gets.chomp.downcase
       while add_num == 'y' do
         phone_nums << add_phone_number
-        puts " Add another? Y/N"
+        puts "> Add another? Y/N"
         add_num = STDIN.gets.chomp
       end
 
       Contact.create(name, email, phone_nums)
-      puts " #{name} successfully added to contact list"
+      puts "> #{name} successfully added to contact list"
     else
-      puts " #{email} already exists! Contact not added"
+      puts "> #{email} already exists! Contact not added"
     end
   end
 
   # Takes ID and display contact if it exists
   def get_contact
     contact = Contact.find(@arg)
-    puts contact.nil? ? " Contact not found" : " #{contact[1]} (#{contact[2]})"
+    puts contact.nil? ? "> Contact not found" : " #{contact[1]} (#{contact[2]})"
   end
 
   # Takes user input and searches contact list. Outputs all unique entries
@@ -89,9 +89,9 @@ private
   end
 
   def add_phone_number
-    puts " Phone Type (Home/Work/Mobile)"
+    puts "> Phone Type (Home/Work/Mobile)"
     type = STDIN.gets.chomp
-    puts " Phone Number"
+    puts "> Phone Number"
     number = STDIN.gets.chomp
     [type, number]
   end
@@ -101,14 +101,15 @@ private
     system "clear"
     pages = contacts.each_slice(num_per_page)
     pages.each_with_index do |page, i| 
-      puts " Page #{i + 1} of #{pages.count}"
+      puts "> Page #{i + 1} of #{pages.count}\n\n"
       display_contacts(page, true)
       wait_for_enter
     end
   end
 
+  # Waits for input from from the user before continuing; returns the input
   def wait_for_enter
-    puts "\n hit enter to continue"
+    puts "\n> Press Enter key to continue"
     STDIN.gets.chomp
   end
 end
