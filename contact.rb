@@ -16,19 +16,27 @@ class Contact
   class << self
     # Returns an Array of Contacts loaded from the database.
     def all
-      contacts = CSV.foreach(@@db).to_a
+      contact = CSV.read(@@db, headers: true, header_converters: :symbol, converters: :numeric)
+      contact.map { |row| row.to_hash }
     end
 
     # Creates a new contact, adding it to the database, returning the new contact.
     def create(name, email, phone)
       new_contact = Contact.new(name, email, next_id, phone)
-      CSV.open(@@db, 'a') { |list| list << [new_contact.id, new_contact.name, new_contact.email, new_contact.phone] }
+      CSV.open(@@db, 'a') do |list| 
+        list << [
+          { id: new_contact.id} , 
+          { name: new_contact.name }, 
+          { email: new_contact.email }, 
+          { phone: new_contact.phone }
+        ]
+      end
     end
 
     # Returns the contact with the specified id. If no contact has the id, returns nil.
     def find(id)
       CSV.foreach(@@db) do |row|
-        return row if row[0] == id
+        return row if row[:id] == id
       end
     end
 
@@ -49,7 +57,7 @@ class Contact
 
     # Checks the db and return the next id in the sequence
     def next_id
-      CSV.read(@@db).last[0].to_i + 1
+      CSV.read(@@db)[0] ? CSV.read(@@db).last[0].to_i + 1 : 1
     end
   end
 end
