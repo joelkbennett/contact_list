@@ -1,19 +1,3 @@
-1,Joel Bennett, joelkbennett@gmail.com
-2,Ann Byczko, aniabyczko@gmail.com
-3,bob,bob@bob.com
-4,ed,ed@ecom
-5,some guy,some_guy@yahoo.com
-6,jo,jojo
-7,another,email@email.com
-8,another joel,joel@jhoe.joel
-9,ed,joelkbennett@gmail.com
-10,joel,joelkbennett@gmail.com
-11,more!,moe@more.com
-12,yut,uty@gmail.com
-13,bilbo,bilbo@baggins.com
-14,asv,asvsav,"[[""home"", ""8888888888""]]"
-15,many numbers,nam@cow.com,"[[""home"", ""7778887765""], [""work"", ""7789998765""]]"
-16,hey,there,"[[""89898"", ""n""]]"
-17,someone,someome@sthong.com,[]
-18,hello,there@gmail,[]
-19,asdads,asdasd,"[[""7787778"", ""asd""], [""87sad"", ""das""]]"
+id,name,email,phone
+1,"Joel Bennett","joelkbennett@gmail.com","[]"
+2,"Ann Byczko","aniabyczko@gmail.com","[]"
