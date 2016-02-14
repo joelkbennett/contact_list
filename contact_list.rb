@@ -80,7 +80,6 @@ private
 
   # Takes an array of contacts and a Boolean if paginated and formats the output
   def display_contacts(contacts, paginated)
-    system('clear')
     contacts.each do |contact| 
       contact_str = " %{id}: %{name} (%{email}), (%{phone})"
       puts contact_str % contact
@@ -105,57 +104,43 @@ private
     last_page = pages.count
     current_page = 0
     
-    puts "> Page #{current_page} of #{last_page}\n\n"
+    puts "> Page #{current_page + 1} of #{last_page}\n\n"
 
     # Display the first page
-    page = pages[0]
+    page = pages[current_page]
     display_contacts(page, true)
 
     # Wait for initial input; Only go forward
     puts"\n> Hit N for next page anything else to quit"
     page_input = STDIN.gets.chomp
-
     while page_input.downcase != 'q'
+      system('clear')
       # Display the previous page
       if page_input.downcase == 'p'
         current_page -= 1
+        return if current_page < 0
         page = pages[current_page]
-        puts "> Page #{current_page} of #{pages.count}\n\n"
+        puts "> Page #{current_page + 1} of #{pages.count}\n\n"
         display_contacts(page, true)
-        puts"\n> Hit N for next page, P for previous page or anything else to quit"
+        puts"\n> Hit N for next page, P for previous page or Q quit"
         page_input = STDIN.gets.chomp
       # Display the next page on all other input
       elsif page_input.downcase == 'n'
         current_page += 1
+        return if current_page >= last_page
         page = pages[current_page]
-        puts "> Page #{current_page} of #{pages.count}\n\n"
+        puts "> Page #{current_page + 1} of #{pages.count}\n\n"
         display_contacts(page, true)
-        puts"\n> Hit N for next page, P for previous page  or anything else to quit"
+        puts"\n> Hit N for next page, P for previous page or Q to quit"
         page_input = STDIN.gets.chomp
       end
     end
-
-    if page_input.downcase == 'q'
-      show_exit_message
-    end
-      
-    # pages.each_with_index do |page, i| 
-    #   puts "> Page #{i + 1} of #{pages.count}\n\n"
-    #   display_contacts(page, true)
-    #   wait_for_enter
-    # end
+    show_exit_message 
   end
 
   def show_exit_message
     puts "\n> Bye!\n\n"
   end
-
-  # TODO: Finish with forward and back pagination
-  # def page_forward(page_num)
-  # end
-
-  # def page_backward(page_num)
-  # end
 
   # Waits for input from from the user before continuing; returns the input
   def wait_for_enter
